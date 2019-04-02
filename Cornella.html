@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Temps en Cornellà</title>
+</head>
+<script type="text/javascript">
+	
+	function ajaxCall() {
+
+		if(window.XMLHttpRequest) {
+			peticion_http = new XMLHttpRequest();
+		} else if(window.ActiveXObject) {
+			peticion_http = new ActiveXObject("Microsoft.XMLHTTP");
+		}	
+
+		// peticion_http.onreadystatechange = showData;
+
+		peticion_http.open('GET', 'https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q=Cornella,es&APPID=dfa9e24a7619dcbabec4bfc657d35ada', true);
+		peticion_http.send(null);
+
+		}
+
+	function showData() {
+		if(peticion_http.readyState == 4) {
+			if(peticion_http.status == 200) {
+
+				console.log(peticion_http.responseText);
+
+				var myJSON = JSON.parse(peticion_http.responseText);
+
+				// ID
+				document.getElementsByTagName("r")[0].innerHTML = myJSON.id;
+				// Ciudad
+				document.getElementsByTagName("r")[1].innerHTML = myJSON.name;
+				// País
+				document.getElementsByTagName("r")[2].innerHTML = myJSON.sys.country;
+				// Temperatura
+				document.getElementsByTagName("r")[3].innerHTML = myJSON.main.temp+'º F';
+				// Presión atmosférica
+				document.getElementsByTagName("r")[4].innerHTML = myJSON.main.pressure;
+				// Humedad
+				document.getElementsByTagName("r")[5].innerHTML = myJSON.main.humidity+'%';
+				// T. Min.
+				document.getElementsByTagName("r")[6].innerHTML = myJSON.main.temp_min+'º F';
+				// T. Min.
+				document.getElementsByTagName("r")[7].innerHTML = myJSON.main.temp_max+'º F';
+				// T. Min.
+				document.getElementsByTagName("img")[0].setAttribute('src', 'http://openweathermap.org/img/w/'+myJSON.weather[0].icon+'.png');
+
+			}
+		}
+	}
+
+	window.onload = ajaxCall;
+</script>
+<body>
+	<button onclick="showData()">Veure el temps</button>
+	<br><br>
+	<b>· ID: </b><r></r><br>
+	<b>· Ciudad: </b><r></r><br>
+	<b>· País: </b><r></r><br>
+	<b>· Temperatura: </b><r></r><br>
+	<b>· Presión atmosférica: </b><r></r><br>
+	<b>· Humedad: </b><r></r><br>
+	<b>· T. Mínima: </b><r></r><br>
+	<b>· T. Máxima: </b><r></r><br>
+	<br>
+	<img style="width: 10%; left: 0; margin: auto; border: solid 2px black; background-color: green" src="https://assetscolors02.cosentino.com/get/499/554x298/t/2/default.png">
+</body>
+</html>

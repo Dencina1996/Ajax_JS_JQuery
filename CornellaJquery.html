@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Temps en Cornellà</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<script type="text/javascript">
+
+	function showData() {
+
+		$.ajax({
+			url: 'https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q=Cornella,es&APPID=dfa9e24a7619dcbabec4bfc657d35ada',
+			type: 'GET',
+			dataType: 'json',
+			data: {param1: 'value1'},
+		})
+		.done(function(data) {
+			console.log(data);
+
+			$("r:eq(0)").html(data.id);
+			$("r:eq(1)").html(data.name);
+			$("r:eq(2)").html(data.sys.country);
+			$("r:eq(3)").html(data.main.temp+'º F');
+			$("r:eq(4)").html(data.main.pressure);
+			$("r:eq(5)").html(data.main.humidity+'%');
+			$("r:eq(6)").html(data.main.temp_min+'º F');
+			$("r:eq(7)").html(data.main.temp_max+'º F');
+			$("img").attr('src', 'http://openweathermap.org/img/w/'+data.weather[0].icon+'.png');
+
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			console.log("complete");
+		});
+
+	}
+	
+</script>
+<body>
+	<button onclick="showData()">Veure el temps</button>
+	<br><br>
+	<b>· ID: </b><r></r><br>
+	<b>· Ciudad: </b><r></r><br>
+	<b>· País: </b><r></r><br>
+	<b>· Temperatura: </b><r></r><br>
+	<b>· Presión atmosférica: </b><r></r><br>
+	<b>· Humedad: </b><r></r><br>
+	<b>· T. Mínima: </b><r></r><br>
+	<b>· T. Máxima: </b><r></r><br>
+	<br>
+	<img style="width: 10%; left: 0; margin: auto; border: solid 2px black; background-color: red" src="https://assetscolors02.cosentino.com/get/499/554x298/t/2/default.png">
+</body>
+</html>
